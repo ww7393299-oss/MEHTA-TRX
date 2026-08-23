@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mehta TRX — Precision Watches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f4;
+    --bg-alt:#f2efe6;
+    --panel:#ffffff;
+    --ink:#1c1b18;
+    --muted:#726d5c;
+    --line:#e6e2d4;
+    --gold:#a9822f;
+    --gold-light:#c9a45c;
+    --navy:#16233a;
+    --red:#8a2f24;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold-light); color:#1c1b18;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- announcement bar ---------- */
+  .announce{
+    background:var(--navy);
+    color:#f2efe6;
+    text-align:center;
+    padding:10px 16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+  }
+  .announce strong{color:var(--gold-light);}
+
+  /* ---------- nav ---------- */
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 6vw;
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:19px;
+    color:var(--gold);
+  }
+  .brand-name{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:0.02em;
+  }
+  .brand-name span{color:var(--gold);}
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:34px;
+    font-size:14px;
+    font-weight:500;
+  }
+  .nav-links a:hover{color:var(--gold);}
+  .nav-cta{
+    background:var(--ink);
+    color:#faf8f4 !important;
+    padding:10px 20px;
+    border-radius:2px;
+    font-size:13px;
+    letter-spacing:0.02em;
+  }
+  .nav-cta:hover{background:var(--gold);}
+  .nav-toggle{display:none;}
+
+  /* ---------- hero (exploded mechanism) ---------- */
+  #hero-wrap{
+    position:relative;
+    height:280vh;
+  }
+  #hero-sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% 38%, #ffffff 0%, #f2efe6 55%, #ece7d9 100%);
+    display:flex;
+  }
+  #hero-canvas{
+    width:100%;
+    height:100%;
+    display:block;
+    cursor:grab;
+    touch-action:none;
+  }
+  #hero-canvas:active{cursor:grabbing;}
+  .hero-copy{
+    position:absolute;
+    top:14vh;
+    left:6vw;
+    max-width:520px;
+    pointer-events:none;
+  }
+  .hero-copy h1{
+    font-size:clamp(42px, 5.6vw, 74px);
+    line-height:0.98;
+    margin-top:14px;
+  }
+  .hero-copy p{
+    max-width:36ch;
+    color:var(--muted);
+    line-height:1.65;
+    margin-top:20px;
+    font-size:16px;
+  }
+  .hero-reveal{
+    position:absolute;
+    bottom:9vh;
+    left:6vw;
+    max-width:400px;
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .hero-reveal.on{opacity:1;}
+  .hero-reveal .eyebrow{color:var(--red);}
+  .hero-reveal p{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:19px;
+    margin-top:8px;
+    color:var(--ink);
+  }
+  .hero-hint{
+    position:absolute;
+    bottom:5vh;
+    right:6vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* ---------- generic section ---------- */
+  section{padding:11vh 6vw;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(30px,3.4vw,46px); margin-top:14px;}
+  .section-head p{color:var(--muted); margin-top:16px; line-height:1.7; font-size:15.5px;}
+
+  /* ---------- watch showcase rows ---------- */
+  #collection{background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .watch-row{
+    display:flex;
+    align-items:center;
+    gap:8vw;
+    padding:64px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .watch-row:last-child{border-bottom:none;}
+  .watch-row.reverse{flex-direction:row-reverse;}
+  .watch-art{
+    flex:0 0 300px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg-alt);
+    border-radius:6px;
+    padding:30px;
+  }
+  .watch-art svg{width:220px; height:220px;}
+  .watch-info{flex:1;}
+  .watch-tier{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .watch-info h3{font-size:clamp(24px,2.6vw,32px); margin-top:10px;}
+  .watch-tagline{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--muted);
+    font-size:16px;
+    margin-top:6px;
+  }
+  .watch-info p.desc{color:var(--muted); line-height:1.7; margin-top:18px; max-width:52ch; font-size:15px;}
+  .feature-tags{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+  .feature-tags span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:20px;
+    color:var(--ink);
+  }
+  .upgrade-note{
+    margin-top:20px;
+    padding:14px 16px;
+    background:var(--bg-alt);
+    border-left:2px solid var(--gold);
+    font-size:13.5px;
+    color:var(--muted);
+    max-width:52ch;
+    line-height:1.6;
+  }
+  .upgrade-note strong{color:var(--ink);}
+  .price-row{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-top:26px;
+  }
+  .price-row .price{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:26px;
+    font-weight:600;
+  }
+  .price-row .price-old{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:15px;
+    color:var(--muted);
+    text-decoration:line-through;
+  }
+  .buy-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:13px 26px;
+    background:var(--ink);
+    color:#faf8f4;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    border:none;
+    cursor:pointer;
+  }
+  .buy-btn:hover{background:var(--gold);}
+
+  /* platinum special row */
+  .watch-row.flagship{
+    background:linear-gradient(135deg, #16233a 0%, #1c1b18 100%);
+    color:#f2efe6;
+    margin:0 -6vw;
+    padding:80px 6vw;
+    border-bottom:none;
+  }
+  .watch-row.flagship .watch-art{background:rgba(255,255,255,0.04);}
+  .watch-row.flagship .watch-tier{color:var(--gold-light);}
+  .watch-row.flagship .watch-tagline{color:#b8b3a2;}
+  .watch-row.flagship p.desc{color:#c7c2b0;}
+  .watch-row.flagship .feature-tags span{border-color:rgba(255,255,255,0.18); color:#f2efe6;}
+  .watch-row.flagship .upgrade-note{background:rgba(255,255,255,0.05); border-left-color:var(--gold-light); color:#c7c2b0;}
+  .watch-row.flagship .upgrade-note strong{color:#f2efe6;}
+  .watch-row.flagship .price-row .price{color:var(--gold-light);}
+  .watch-row.flagship .buy-btn{background:var(--gold); color:#1c1b18;}
+  .watch-row.flagship .buy-btn:hover{background:var(--gold-light);}
+  .flagship-badge{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    background:var(--gold-light);
+    color:#1c1b18;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:14px;
+  }
+
+  /* ---------- calculator ---------- */
+  #calculator{background:var(--bg-alt);}
+  .calc-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:44px;
+    max-width:640px;
+  }
+  .calc-field{margin-bottom:24px;}
+  .calc-field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .calc-field select, .calc-field input[type="number"]{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    background:var(--panel);
+    color:var(--ink);
+  }
+  .calc-check{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    margin-bottom:28px;
+  }
+  .calc-check input{width:17px; height:17px;}
+  .calc-summary{
+    border-top:1px solid var(--line);
+    padding-top:22px;
+  }
+  .calc-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:14.5px;
+    margin-bottom:10px;
+    color:var(--muted);
+  }
+  .calc-line.total{
+    color:var(--ink);
+    font-weight:600;
+    font-size:20px;
+    font-family:'IBM Plex Mono', monospace;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .calc-line.discount{color:var(--red);}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--ink);
+    color:#c7c2b0;
+    padding:60px 6vw 30px;
+  }
+  .foot-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .foot-grid h4{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#8f8a78;
+    margin-bottom:16px;
+  }
+  .foot-grid a, .foot-grid p{
+    display:block;
+    font-size:14px;
+    margin-bottom:10px;
+    color:#c7c2b0;
+  }
+  .foot-grid a:hover{color:var(--gold-light);}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:#8f8a78;
+  }
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .watch-row, .watch-row.reverse{flex-direction:column; text-align:left;}
+    .watch-art{width:100%;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .hero-copy{max-width:88vw;}
+    .hero-reveal{max-width:88vw;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="announce">First order? <strong>20% off</strong> everything, automatically applied at checkout.</div>
+
+<nav>
+  <div class="brand">
+    <div class="brand-mark">N</div>
+    <div class="brand-name">MEHTA <span>TRX</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#collection">Watches</a>
+    <a href="#calculator">Price Calculator</a>
+    <a href="support.html">Support</a>
+    <a href="login.html">Login</a>
+    <a href="order.html" class="nav-cta">Order Now</a>
+  </div>
+</nav>
+
+<div id="hero-wrap">
+  <div id="hero-sticky">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-copy">
+      <div class="eyebrow">Mehta TRX — Since the first gear</div>
+      <h1>Every part, earned.</h1>
+      <p>We build six watches, each one solving what the last one couldn't. Scroll to see what's actually inside.</p>
+    </div>
+    <div class="hero-reveal" id="hero-reveal">
+      <div class="eyebrow">The mechanism</div>
+      <p>26 jewels. One mainspring. Nothing hidden.</p>
+    </div>
+    <div class="hero-hint">Drag to rotate — scroll to open it up</div>
+  </div>
+</div>
+
+<section id="collection">
+  <div class="section-head">
+    <div class="eyebrow">The Collection</div>
+    <h2>Six watches. One ladder.</h2>
+    <p>Every Mehta TRX model exists to fix a specific limitation of the one before it. Start wherever fits your wrist and your budget — upgrade whenever you're ready.</p>
+  </div>
+
+  <!-- 1. MehtaT -->
+  <div class="watch-row" id="mehtat">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="58" fill="#e9e6db" stroke="#9c9787" stroke-width="3"/>
+        <circle cx="80" cy="80" r="46" fill="#ffffff" stroke="#d8d3c2" stroke-width="2"/>
+        <g stroke="#1c1b18" stroke-width="2">
+          <line x1="80" y1="38" x2="80" y2="46"/>
+          <line x1="80" y1="114" x2="80" y2="122"/>
+          <line x1="38" y1="80" x2="46" y2="80"/>
+          <line x1="114" y1="80" x2="122" y2="80"/>
+        </g>
+        <line x1="80" y1="80" x2="80" y2="52" stroke="#1c1b18" stroke-width="3" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="102" y2="80" stroke="#1c1b18" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3.5" fill="#1c1b18"/>
+        <rect x="66" y="16" width="28" height="14" rx="3" fill="#3a3a38"/>
+        <rect x="66" y="130" width="28" height="14" rx="3" fill="#3a3a38"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="watch-tier">Model 01</div>
+      <h3>MehtaT</h3>
+      <div class="watch-tagline">The Everyday</div>
+      <p class="desc">Your first real watch. A clean steel case, precise quartz movement, and a dial with nothing to distract from telling the time. Built for daily wear from day one.</p>
+      <div class="feature-tags">
+        <span>Steel case</span><span>Quartz movement</span><span>30m splash resistant</span><span>Silicone strap</span>
+      </div>
+      <div class="price-row"><div class="price">₹3,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=MehtaT&price=3999'">Choose MehtaT</button>
+    </div>
+  </div>
+
+  <!-- 2. MehtaD -->
+  <div class="watch-row reverse" id="mehtad">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="58" fill="#c9a45c" stroke="#a9822f" stroke-width="3"/>
+        <circle cx="80" cy="80" r="46" fill="#f6f1e4" stroke="#d8c79a" stroke-width="2"/>
+        <g stroke="#3a3220" stroke-width="1.6">
+          <line x1="80" y1="38" x2="80" y2="46"/>
+          <line x1="80" y1="114" x2="80" y2="122"/>
+          <line x1="38" y1="80" x2="46" y2="80"/>
+          <line x1="114" y1="80" x2="122" y2="80"/>
+        </g>
+        <rect x="96" y="76" width="12" height="8" fill="#fff" stroke="#a9822f" stroke-width="1"/>
+        <line x1="80" y1="80" x2="80" y2="52" stroke="#3a3220" stroke-width="3" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="60" y2="80" stroke="#3a3220" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3.5" fill="#a9822f"/>
+        <path d="M60 20 Q80 8 100 20 L96 34 Q80 24 64 34 Z" fill="#6b4a30"/>
+        <path d="M60 140 Q80 152 100 140 L96 126 Q80 136 64 126 Z" fill="#6b4a30"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="watch-tier">Model 02</div>
+      <h3>MehtaD</h3>
+      <div class="watch-tagline">The Refined</div>
+      <p class="desc">Same reliability, dressed up. Genuine leather strap, a date window you'll actually use, and a scratch-resistant crystal that keeps the dial looking new for years.</p>
+      <div class="feature-tags">
+        <span>Sapphire-coated crystal</span><span>Genuine leather</span><span>Date window</span><span>50m resistant</span>
+      </div>
+      <div class="upgrade-note"><strong>Over MehtaT:</strong> a tougher crystal, real leather instead of silicone, and a date function — the everyday watch, made presentable for the office.</div>
+      <div class="price-row"><div class="price">₹7,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=MehtaD&price=7999'">Choose MehtaD</button>
+    </div>
+  </div>
+
+  <!-- 3. VTX -->
+  <div class="watch-row" id="vtx">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="58" fill="#1c1b18" stroke="#8a2f24" stroke-width="3"/>
+        <circle cx="80" cy="80" r="46" fill="#232220" stroke="#3a3936" stroke-width="2"/>
+        <circle cx="80" cy="60" r="9" fill="#2e2d2a" stroke="#8a2f24" stroke-width="1.2"/>
+        <circle cx="63" cy="92" r="7" fill="#2e2d2a" stroke="#8a2f24" stroke-width="1.2"/>
+        <circle cx="97" cy="92" r="7" fill="#2e2d2a" stroke="#8a2f24" stroke-width="1.2"/>
+        <line x1="80" y1="80" x2="80" y2="50" stroke="#f2efe6" stroke-width="3" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="64" y2="80" stroke="#f2efe6" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="94" y2="66" stroke="#8a2f24" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3.5" fill="#8a2f24"/>
+        <rect x="64" y="14" width="32" height="12" rx="2" fill="#1c1b18"/>
+        <rect x="64" y="134" width="32" height="12" rx="2" fill="#1c1b18"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="watch-tier">Model 03</div>
+      <h3>VTX</h3>
+      <div class="watch-tagline">The Performer</div>
+      <p class="desc">Built for movement. A chronograph with two working subdials, a tachymeter bezel for speed and pace, and a case rated for the pool, not just the sink.</p>
+      <div class="feature-tags">
+        <span>Chronograph</span><span>Tachymeter bezel</span><span>100m water resistant</span><span>Silicone strap</span>
+      </div>
+      <div class="upgrade-note"><strong>Over MehtaD:</strong> real chronograph function and double the water resistance — this one keeps up when MehtaD would come off your wrist.</div>
+      <div class="price-row"><div class="price">₹9,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=VTX&price=9999'">Choose VTX</button>
+    </div>
+  </div>
+
+  <!-- 4. duckT -->
+  <div class="watch-row reverse" id="duckt">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="58" fill="#173352" stroke="#0e2036" stroke-width="3"/>
+        <path d="M80 22 A58 58 0 0 1 133 63 L118 68 A44 44 0 0 0 80 36 Z" fill="#e9e6db"/>
+        <circle cx="80" cy="80" r="46" fill="#1c4a73" stroke="#0e2036" stroke-width="2"/>
+        <g fill="#e9e6db">
+          <circle cx="80" cy="40" r="2.6"/>
+          <circle cx="80" cy="120" r="2.6"/>
+          <circle cx="40" cy="80" r="2.6"/>
+          <circle cx="120" cy="80" r="2.6"/>
+        </g>
+        <rect x="96" y="76" width="11" height="8" fill="#e9e6db" stroke="#0e2036" stroke-width="1"/>
+        <line x1="80" y1="80" x2="80" y2="52" stroke="#e9e6db" stroke-width="3" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="62" y2="80" stroke="#e9e6db" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3.5" fill="#e9e6db"/>
+        <path d="M60 20 Q80 6 100 20 L94 36 Q80 26 66 36 Z" fill="#2e2d2a"/>
+        <path d="M60 140 Q80 154 100 140 L94 124 Q80 134 66 124 Z" fill="#2e2d2a"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="watch-tier">Model 04</div>
+      <h3>duckT</h3>
+      <div class="watch-tagline">The Diver</div>
+      <p class="desc">The first automatic in the lineup — no battery, ever. A unidirectional bezel for tracking dive time, lume that actually glows, and a 200m rating that means it.</p>
+      <div class="feature-tags">
+        <span>Automatic movement</span><span>200m water resistant</span><span>Rotating bezel</span><span>Luminous markers</span>
+      </div>
+      <div class="upgrade-note"><strong>Over VTX:</strong> self-winding instead of battery-powered, and double VTX's depth rating — this is where Mehta TRX stops being a fashion watch and becomes a tool.</div>
+      <div class="price-row"><div class="price">₹22,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=duckT&price=22999'">Choose duckT</button>
+    </div>
+  </div>
+
+  <!-- 5. zerox -->
+  <div class="watch-row" id="zerox">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="58" fill="#c9a45c" stroke="#a9822f" stroke-width="4"/>
+        <circle cx="80" cy="80" r="48" fill="#f8f4e8"/>
+        <circle cx="80" cy="80" r="46" fill="none" stroke="#a9822f" stroke-width="1"/>
+        <g stroke="#a9822f" stroke-width="1.3">
+          <line x1="80" y1="36" x2="80" y2="44"/>
+          <line x1="80" y1="116" x2="80" y2="124"/>
+          <line x1="36" y1="80" x2="44" y2="80"/>
+          <line x1="116" y1="80" x2="124" y2="80"/>
+        </g>
+        <circle cx="80" cy="102" r="9" fill="none" stroke="#a9822f" stroke-width="1.2"/>
+        <circle cx="80" cy="102" r="3" fill="#a9822f"/>
+        <line x1="80" y1="80" x2="80" y2="54" stroke="#3a3220" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="98" y2="80" stroke="#3a3220" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3" fill="#a9822f"/>
+        <path d="M62 22 Q80 10 98 22 L93 36 Q80 28 67 36 Z" fill="#6b4a30"/>
+        <path d="M62 138 Q80 150 98 138 L93 124 Q80 132 67 124 Z" fill="#6b4a30"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="watch-tier">Model 05</div>
+      <h3>zerox</h3>
+      <div class="watch-tagline">The Statement</div>
+      <p class="desc">A dress watch with nothing to prove and everything to show. 18k gold-plated case, a small aperture that lets you glimpse the movement working underneath, calfskin strap.</p>
+      <div class="feature-tags">
+        <span>18k gold-plated case</span><span>Exhibition caseback</span><span>Sapphire crystal</span><span>Calfskin strap</span>
+      </div>
+      <div class="upgrade-note"><strong>Over duckT:</strong> precious-metal finishing and a movement you can actually see through the caseback — this is the one you wear to be noticed, not just to check the time.</div>
+      <div class="price-row"><div class="price">₹45,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=zerox&price=45999'">Choose zerox</button>
+    </div>
+  </div>
+
+  <!-- 6. Platinum RTX - flagship -->
+  <div class="watch-row flagship" id="platinum">
+    <div class="watch-art">
+      <svg viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#c9a45c" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="80" cy="80" r="54" fill="#e7e5df" stroke="#c9a45c" stroke-width="4"/>
+        <circle cx="80" cy="80" r="44" fill="#0f1626" stroke="#c9a45c" stroke-width="1.4"/>
+        <g fill="#c9a45c">
+          <circle cx="80" cy="42" r="2.4"/>
+          <circle cx="80" cy="118" r="2.4"/>
+          <circle cx="42" cy="80" r="2.4"/>
+          <circle cx="118" cy="80" r="2.4"/>
+          <circle cx="59" cy="59" r="1.8"/>
+          <circle cx="101" cy="59" r="1.8"/>
+          <circle cx="59" cy="101" r="1.8"/>
+          <circle cx="101" cy="101" r="1.8"/>
+        </g>
+        <circle cx="80" cy="102" r="11" fill="none" stroke="#c9a45c" stroke-width="1.2"/>
+        <circle cx="80" cy="102" r="6" fill="none" stroke="#c9a45c" stroke-width="0.8"/>
+        <circle cx="80" cy="102" r="1.6" fill="#c9a45c"/>
+        <line x1="80" y1="80" x2="80" y2="52" stroke="#f2efe6" stroke-width="2.6" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="64" y2="80" stroke="#f2efe6" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3.2" fill="#c9a45c"/>
+        <path d="M58 24 Q80 8 102 24 L96 40 Q80 30 64 40 Z" fill="#141310"/>
+        <path d="M58 136 Q80 152 102 136 L96 120 Q80 130 64 120 Z" fill="#141310"/>
+        <line x1="62" y1="128" x2="98" y2="128" stroke="#c9a45c" stroke-width="0.8" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="watch-info">
+      <div class="flagship-badge">Flagship · Numbered Edition</div>
+      <div class="watch-tier">Model 06</div>
+      <h3>Platinum RTX</h3>
+      <div class="watch-tagline">The Icon</div>
+      <p class="desc">This is the watch the other five were practice for. A platinum-finished case, a hand-finished dial with an open aperture over the balance wheel, and a number engraved on the caseback that's yours alone. Fewer than 500 will ever exist.</p>
+      <div class="feature-tags">
+        <span>Platinum-finish case</span><span>Open balance aperture</span><span>Hand-finished dial</span><span>Individually numbered</span><span>Lifetime servicing</span>
+      </div>
+      <div class="upgrade-note"><strong>Over zerox:</strong> zerox lets you see a hint of the movement. RTX puts it on full display, hand-finished, and puts your number on record forever. There isn't a seventh model — this is where the ladder ends.</div>
+      <div class="price-row"><div class="price">₹99,999</div><div class="price-old">₹1,24,999</div></div>
+      <button class="buy-btn" type="button" onclick="location.href='order.html?model=Platinum+RTX&price=99999'">Reserve the Platinum RTX</button>
+    </div>
+  </div>
+
+</section>
+
+<section id="calculator">
+  <div class="section-head">
+    <div class="eyebrow">Price Calculator</div>
+    <h2>Work out your order.</h2>
+    <p>Pick a model and quantity — your first-order discount is applied automatically.</p>
+  </div>
+  <div class="calc-box">
+    <div class="calc-field">
+      <label for="calc-model">Model</label>
+      <select id="calc-model">
+        <option value="3999">MehtaT — ₹3,999</option>
+        <option value="7999">MehtaD — ₹7,999</option>
+        <option value="9999">VTX — ₹9,999</option>
+        <option value="22999">duckT — ₹22,999</option>
+        <option value="45999">zerox — ₹45,999</option>
+        <option value="99999">Platinum RTX — ₹99,999</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label for="calc-qty">Quantity</label>
+      <input type="number" id="calc-qty" value="1" min="1" max="10" />
+    </div>
+    <div class="calc-check">
+      <input type="checkbox" id="calc-first" checked />
+      <label for="calc-first" style="margin:0; text-transform:none; letter-spacing:0; font-family:'Inter',sans-serif; color:var(--ink); font-size:14px;">This is my first order (20% off)</label>
+    </div>
+    <div class="calc-summary">
+      <div class="calc-line"><span>Subtotal</span><span class="mono" id="calc-subtotal">₹0</span></div>
+      <div class="calc-line discount" id="calc-discount-row"><span>First-order discount (20%)</span><span class="mono" id="calc-discount">−₹0</span></div>
+      <div class="calc-line total"><span>Total</span><span id="calc-total">₹0</span></div>
+    </div>
+    <button class="buy-btn" type="button" style="width:100%; text-align:center;" onclick="goToOrder()">Continue to order</button>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <h4>Mehta TRX</h4>
+      <p style="max-width:32ch; line-height:1.7;">Six watches, each earning its place on your wrist. Assembled and regulated to order.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="#collection">All watches</a>
+      <a href="#calculator">Price calculator</a>
+      <a href="order.html">Place an order</a>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <a href="login.html">Login</a>
+      <a href="login.html">Create account</a>
+      <a href="support.html">Track an order</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="support.html">Help center</a>
+      <a href="support.html">Warranty & service</a>
+      <a href="support.html">Contact us</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© 2026 Mehta TRX. Concept design.</div>
+    <div>Made for the wrist, not the shelf.</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var canvas = document.getElementById('hero-canvas');
+  var stickyEl = document.getElementById('hero-sticky');
+  var wrapEl = document.getElementById('hero-wrap');
+  var revealEl = document.getElementById('hero-reveal');
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0.6, 0.3, 6.6);
+
+  function resize(){
+    var w = stickyEl.clientWidth;
+    var h = stickyEl.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+
+  // studio lighting for a white/realistic look
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xcfc9b6, 0.75));
+  var key = new THREE.DirectionalLight(0xffffff, 1.2);
+  key.position.set(3.5, 5, 4);
+  scene.add(key);
+  var fill = new THREE.DirectionalLight(0xf3e6c8, 0.55);
+  fill.position.set(-4, 1, 2.5);
+  scene.add(fill);
+  var rim = new THREE.DirectionalLight(0xffffff, 0.4);
+  rim.position.set(0, -3, -4);
+  scene.add(rim);
+
+  // soft shadow-catcher disc under the watch for grounding
+  var shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.06 });
+  var shadowDisc = new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), shadowMat);
+  shadowDisc.rotation.x = -Math.PI / 2;
+  shadowDisc.position.y = -1.6;
+  scene.add(shadowDisc);
+
+  var rig = new THREE.Group();
+  scene.add(rig);
+
+  var steelMat = new THREE.MeshStandardMaterial({ color: 0xc7c2b4, metalness: 0.9, roughness: 0.25 });
+  var darkSteelMat = new THREE.MeshStandardMaterial({ color: 0x4a4842, metalness: 0.85, roughness: 0.3 });
+  var goldMat = new THREE.MeshStandardMaterial({ color: 0xc9a45c, metalness: 0.85, roughness: 0.28 });
+  var dialMat = new THREE.MeshStandardMaterial({ color: 0x141310, metalness: 0.2, roughness: 0.5 });
+  var glassMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, metalness: 0, roughness: 0.05 });
+  var strapMat = new THREE.MeshStandardMaterial({ color: 0x2a1c14, roughness: 0.85, metalness: 0.05 });
+  var jewelMat = new THREE.MeshStandardMaterial({ color: 0x8a2f24, metalness: 0.3, roughness: 0.2 });
+
+  // fixed chassis (outer ring, lugs, strap, crown) — does not explode
+  var chassis = new THREE.Group();
+  rig.add(chassis);
+
+  var outerRing = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.0, 0.1, 64), steelMat);
+  chassis.add(outerRing);
+
+  var crown = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.18, 20), steelMat);
+  crown.rotation.z = Math.PI / 2;
+  crown.position.set(1.05, 0, 0);
+  chassis.add(crown);
+
+  function strapSide(sign){
+    var g = new THREE.Group();
+    var s1 = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.15, 1.0), strapMat);
+    s1.position.set(0, -0.05, sign * (0.55 + 0.48));
+    s1.rotation.x = sign * 0.3;
+    g.add(s1);
+    var s2 = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.13, 0.9), strapMat);
+    s2.position.set(0, -0.2, sign * (0.55 + 1.3));
+    s2.rotation.x = sign * 0.52;
+    g.add(s2);
+    chassis.add(g);
+  }
+  strapSide(1);
+  strapSide(-1);
+
+  [1, -1].forEach(function(sign){
+    [1, -1].forEach(function(side){
+      var lug = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.16, 0.24), steelMat);
+      lug.position.set(side * 0.55, -0.03, sign * 0.96);
+      chassis.add(lug);
+    });
+  });
+
+  // exploding internals
+  var crystalGroup = new THREE.Group();
+  var bezel = new THREE.Mesh(new THREE.TorusGeometry(0.98, 0.05, 20, 64), goldMat);
+  bezel.rotation.x = Math.PI / 2;
+  crystalGroup.add(bezel);
+  var crystal = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 0.92, 0.04, 64), glassMat);
+  crystal.position.y = 0.02;
+  crystalGroup.add(crystal);
+  rig.add(crystalGroup);
+
+  var dialGroup = new THREE.Group();
+  var dial = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.03, 64), dialMat);
+  dialGroup.add(dial);
+  for (var i = 0; i < 12; i++){
+    var angle = (i / 12) * Math.PI * 2;
+    var isCardinal = (i % 3 === 0);
+    var marker = new THREE.Mesh(
+      new THREE.BoxGeometry(isCardinal ? 0.05 : 0.035, 0.006, isCardinal ? 0.14 : 0.09),
+      goldMat
+    );
+    marker.position.set(Math.sin(angle) * 0.66, 0.02, Math.cos(angle) * 0.66);
+    marker.rotation.y = -angle;
+    dialGroup.add(marker);
+  }
+  function hand(length, width, thickness, color, y){
+    var geo = new THREE.BoxGeometry(width, thickness, length);
+    geo.translate(0, 0, -length / 2 + width * 0.6);
+    var mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: color, metalness: 0.6, roughness: 0.3 }));
+    var g = new THREE.Group();
+    g.add(mesh);
+    g.position.y = y;
+    dialGroup.add(g);
+    return g;
+  }
+  var hourHand = hand(0.4, 0.045, 0.02, 0xf2efe6, 0.04);
+  var minuteHand = hand(0.6, 0.032, 0.018, 0xf2efe6, 0.05);
+  var secondHand = hand(0.64, 0.012, 0.014, 0xc9a45c, 0.06);
+  var hub = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.05, 16), goldMat);
+  hub.position.y = 0.06;
+  dialGroup.add(hub);
+  rig.add(dialGroup);
+
+  // movement plate with visible gear train
+  var movementGroup = new THREE.Group();
+  var plate = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.72, 0.06, 48), goldMat);
+  movementGroup.add(plate);
+  var gears = [];
+  var gearSpecs = [
+    { r: 0.22, x: 0, z: 0.18, speed: 0.6 },
+    { r: 0.14, x: 0.24, z: -0.1, speed: -1.1 },
+    { r: 0.1, x: -0.26, z: -0.05, speed: 1.6 },
+    { r: 0.07, x: -0.05, z: -0.32, speed: -2.2 }
+  ];
+  gearSpecs.forEach(function(spec){
+    var gear = new THREE.Mesh(new THREE.CylinderGeometry(spec.r, spec.r, 0.05, 10), darkSteelMat);
+    gear.position.set(spec.x, 0.05, spec.z);
+    movementGroup.add(gear);
+    gears.push({ mesh: gear, speed: spec.speed });
+  });
+  [[0.15, 0.1], [-0.18, 0.12], [0.05, -0.2]].forEach(function(p){
+    var jewel = new THREE.Mesh(new THREE.SphereGeometry(0.025, 10, 10), jewelMat);
+    jewel.position.set(p[0], 0.09, p[1]);
+    movementGroup.add(jewel);
+  });
+  rig.add(movementGroup);
+
+  var casebackGroup = new THREE.Group();
+  var caseback = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.08, 64), darkSteelMat);
+  casebackGroup.add(caseback);
+  rig.add(casebackGroup);
+
+  rig.rotation.x = -0.15;
+  var targetRotY = 0.5;
+  var targetRotX = -0.15;
+
+  // ---------- drag to rotate ----------
+  var isDragging = false, lastX = 0, lastY = 0, velX = 0;
+  function down(e){ isDragging = true; var p = e.touches ? e.touches[0] : e; lastX = p.clientX; lastY = p.clientY; velX = 0; }
+  function move(e){
+    if (!isDragging) return;
+    var p = e.touches ? e.touches[0] : e;
+    var dx = p.clientX - lastX, dy = p.clientY - lastY;
+    lastX = p.clientX; lastY = p.clientY;
+    targetRotY += dx * 0.008;
+    targetRotX = Math.max(-0.55, Math.min(0.45, targetRotX + dy * 0.005));
+    velX = dx * 0.008;
+    e.preventDefault && e.preventDefault();
+  }
+  function up(){ isDragging = false; }
+  canvas.addEventListener('mousedown', down);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', up);
+  canvas.addEventListener('touchstart', down, { passive: true });
+  window.addEventListener('touchmove', move, { passive: false });
+  window.addEventListener('touchend', up);
+
+  // ---------- scroll-driven explode progress ----------
+  var explode = 0;
+  function onScroll(){
+    var rect = wrapEl.getBoundingClientRect();
+    var scrollable = wrapEl.offsetHeight - window.innerHeight;
+    var p = scrollable > 0 ? (-rect.top) / scrollable : 0;
+    explode = Math.max(0, Math.min(1, p));
+    revealEl.classList.toggle('on', explode > 0.55);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  function updateHands(){
+    var now = new Date();
+    var h = now.getHours() % 12, m = now.getMinutes(), s = now.getSeconds() + now.getMilliseconds() / 1000;
+    hourHand.rotation.y = (h / 12 + m / (12 * 60)) * Math.PI * 2;
+    minuteHand.rotation.y = (m / 60 + s / 3600) * Math.PI * 2;
+    secondHand.rotation.y = (s / 60) * Math.PI * 2;
+  }
+
+  var idleSpeed = reduceMotion ? 0 : 0.0014;
+
+  function animate(t){
+    requestAnimationFrame(animate);
+
+    if (!isDragging){ targetRotY += idleSpeed + velX; velX *= 0.9; }
+    rig.rotation.y += (targetRotY - rig.rotation.y) * 0.12;
+    rig.rotation.x += (targetRotX - rig.rotation.x) * 0.12;
+
+    var e = explode;
+    crystalGroup.position.y = 0.08 + e * 0.85;
+    dialGroup.position.y = 0.05 + e * 0.42;
+    movementGroup.position.y = 0.0 + e * 0.08;
+    casebackGroup.position.y = -0.05 - e * 0.75;
+
+    camera.position.z = 6.6 + e * 2.0;
+    camera.position.y = 0.3 + e * 0.5;
+
+    if (!reduceMotion){
+      gears.forEach(function(g){ g.mesh.rotation.y = (t || 0) * 0.001 * g.speed; });
+    }
+
+    updateHands();
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', function(){ resize(); });
+  resize();
+  onScroll();
+  requestAnimationFrame(animate);
+
+  window.goToOrder = function(){
+    var model = document.getElementById('calc-model');
+    var price = model.value;
+    var name = model.options[model.selectedIndex].text.split(' — ')[0];
+    var qty = document.getElementById('calc-qty').value || 1;
+    var first = document.getElementById('calc-first').checked ? '1' : '0';
+    location.href = 'order.html?model=' + encodeURIComponent(name) + '&price=' + price + '&qty=' + qty + '&first=' + first;
+  };
+
+  function updateCalc(){
+    var priceSel = document.getElementById('calc-model');
+    var unit = parseInt(priceSel.value, 10);
+    var qty = Math.max(1, parseInt(document.getElementById('calc-qty').value || '1', 10));
+    var first = document.getElementById('calc-first').checked;
+    var subtotal = unit * qty;
+    var discount = first ? Math.round(subtotal * 0.2) : 0;
+    var total = subtotal - discount;
+
+    document.getElementById('calc-subtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
+    document.getElementById('calc-discount').textContent = '−₹' + discount.toLocaleString('en-IN');
+    document.getElementById('calc-discount-row').style.display = first ? 'flex' : 'none';
+    document.getElementById('calc-total').textContent = '₹' + total.toLocaleString('en-IN');
+  }
+  document.getElementById('calc-model').addEventListener('change', updateCalc);
+  document.getElementById('calc-qty').addEventListener('input', updateCalc);
+  document.getElementById('calc-first').addEventListener('change', updateCalc);
+  updateCalc();
+
+})();
+</script>
+
+</body>
+</html>
